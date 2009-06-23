@@ -1,7 +1,8 @@
 %define	up_name	cfengine
 %define	name	cfengine3
-%define version 3.0.1
-%define release %mkrel 1
+%define version 3.0.2
+%define beta b3
+%define release %mkrel 0.%{beta}.1
 %define _fortify_cflags %nil
 
 %define major 1
@@ -15,12 +16,10 @@ Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
 URL:		http://www.cfengine.org
-Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}.tar.gz
+Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}%{beta}.tar.gz
 Source4:	cfservd.init
 Source5:	cfexecd.init
 Source6:	cfenvd.init
-Patch0:     cfengine-3.0.1-fix-buffer-size.patch
-Patch1:     cfengine-3.0.1-fix-mandriva-detection.patch
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
@@ -101,9 +100,7 @@ This package contains the header files and libraries needed for
 developing programs using the %{name} library.
 
 %prep
-%setup -q -n %{up_name}-%{version}
-%patch0 -p 0
-%patch1 -p 1
+%setup -q -n %{up_name}-%{version}%{beta}
 
 %build
 %serverbuild
@@ -161,7 +158,7 @@ rm -rf %{buildroot}
 %{_sbindir}/cf-promises
 %{_localstatedir}/lib/%{up_name}
 %{_mandir}/man8/cf-key.8*
-%{_mandir}/man8/cf-promise.8*
+%{_mandir}/man8/cf-promises.8*
 
 %files cfagent
 %defattr(-,root,root)
@@ -173,9 +170,6 @@ rm -rf %{buildroot}
 %{_mandir}/man8/cf-know.8*
 %{_mandir}/man8/cf-report.8*
 %{_mandir}/man8/cf-runagent.8*
-%{_infodir}/cf3-reference.info.*
-%{_infodir}/cf3-reference.info-1.*
-%{_infodir}/cf3-reference.info-2.*
 
 %files cfservd
 %defattr(-,root,root)
