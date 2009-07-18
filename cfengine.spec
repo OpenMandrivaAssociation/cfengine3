@@ -2,7 +2,7 @@
 %define	name	cfengine3
 %define version 3.0.2
 %define beta b4
-%define release %mkrel 0.%{beta}.2
+%define release %mkrel 0.%{beta}.3
 %define _fortify_cflags %nil
 
 %define major 1
@@ -133,6 +133,9 @@ mv %{buildroot}%{_localstatedir}/lib/%{up_name}/inputs \
 
 pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
 ln -sf ../../..%{_sysconfdir}/%{up_name} inputs
+popd
+pushd %{buildroot}%{_localstatedir}/lib/%{up_name}/bin
+ln -sf ../../../../%{_sbindir}/cf-promises .
 popd
 
 install -d -m 755 %{buildroot}%{_initrddir}
