@@ -1,7 +1,7 @@
 %define	up_name	cfengine
 %define	name	cfengine3
 %define version 3.0.2
-%define beta b3
+%define beta b4
 %define release %mkrel 0.%{beta}.1
 %define _fortify_cflags %nil
 
