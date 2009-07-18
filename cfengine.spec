@@ -2,7 +2,7 @@
 %define	name	cfengine3
 %define version 3.0.2
 %define beta b4
-%define release %mkrel 0.%{beta}.1
+%define release %mkrel 0.%{beta}.2
 %define _fortify_cflags %nil
 
 %define major 1
@@ -20,6 +20,7 @@ Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}%{beta}.tar.gz
 Source4:	cfservd.init
 Source5:	cfexecd.init
 Source6:	cfenvd.init
+Patch0:     cfengine-3.0.2b4-fix-default-configuration-installation.patch
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
@@ -101,6 +102,8 @@ developing programs using the %{name} library.
 
 %prep
 %setup -q -n %{up_name}-%{version}%{beta}
+%patch0 -p 1
+autoreconf
 
 %build
 %serverbuild
@@ -112,18 +115,32 @@ export CFLAGS="$CFLAGS -fPIC"
 rm -rf %{buildroot}
 %makeinstall_std
 
-install -d -m 755 %{buildroot}%{_sysconfdir}/cron.daily
-install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
+install -d -m 755 %{buildroot}%{_sysconfdir}
+
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/bin
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/lastseen
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/modules
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/outputs
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/ppkeys
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/randseed
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/reports
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_in
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_out
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_state
+
+mv %{buildroot}%{_localstatedir}/lib/%{up_name}/inputs \
+    %{buildroot}%{_sysconfdir}/%{up_name}
+
+pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
+ln -sf ../../..%{_sysconfdir}/%{up_name} inputs
+popd
+
 install -d -m 755 %{buildroot}%{_initrddir}
-install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}
 install -m 755 %{SOURCE4} %{buildroot}%{_initrddir}/cfservd
 install -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/cfexecd
 install -m 755 %{SOURCE6} %{buildroot}%{_initrddir}/cfenvd
 
-# everything installed there is doc, actually
-rm -rf %{buildroot}%{_datadir}/%{up_name}
 mv %{buildroot}%{_docdir}/%{up_name} %{buildroot}%{_docdir}/%{name}
-install -m 644 inputs/*.cf %{buildroot}%{_docdir}/%{name}
 
 %post base
 if [ $1 = 1 ]; then
@@ -157,6 +174,7 @@ rm -rf %{buildroot}
 %{_sbindir}/cf-key
 %{_sbindir}/cf-promises
 %{_localstatedir}/lib/%{up_name}
+%config(noreplace) %{_sysconfdir}/%{up_name}
 %{_mandir}/man8/cf-key.8*
 %{_mandir}/man8/cf-promises.8*
 
