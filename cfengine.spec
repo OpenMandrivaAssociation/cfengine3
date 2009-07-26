@@ -1,7 +1,7 @@
 %define	up_name	cfengine
 %define	name	cfengine3
 %define version 3.0.2
-%define beta b4
+%define beta b5
 %define release %mkrel 0.%{beta}.3
 %define _fortify_cflags %nil
 
@@ -17,10 +17,10 @@ License:	GPL
 Group:		Monitoring
 URL:		http://www.cfengine.org
 Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}%{beta}.tar.gz
-Source4:	cfservd.init
-Source5:	cfexecd.init
-Source6:	cfenvd.init
-Patch0:     cfengine-3.0.2b4-fix-default-configuration-installation.patch
+Patch0:     cfengine-3.0.2b5-fix-default-configuration-installation.patch
+Source4:	cfengine-serverd.init
+Source5:	cfengine-execd.init
+Source6:	cfengine-monitord.init
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
@@ -44,42 +44,42 @@ Group:		Monitoring
 %description base
 This package contain the cfengine base files needed by all subpackages.
 
-%package cfagent
+%package agent
 Summary:	Cfengine agent
 Group:		Monitoring
 Requires:	%{name}-base = %{version}-%{release}
 
-%description cfagent
+%description agent
 This package contain the cfengine agent.
 
-%package cfservd
+%package serverd
 Summary:	Cfengine server daemon
 Group:		Monitoring
 Requires:	%{name}-base = %{version}-%{release}
 Requires(post):rpm-helper
 Requires(preun):rpm-helper
 
-%description cfservd
+%description serverd
 This package contain the cfengine server daemon.
 
-%package cfexecd
+%package execd
 Summary:	Cfengine agent execution wrapper
 Group:		Monitoring
 Requires:	%{name}-base = %{version}-%{release}
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
 
-%description cfexecd
+%description execd
 This package contain the cfengine agent execution wrapper.
 
-%package cfenvd
+%package monitord
 Summary:	Cfengine anomaly detection daemon
 Group:		Monitoring
 Requires:	%{name}-base = %{version}-%{release}
 Requires(pre):	rpm-helper
 Requires(preun):rpm-helper
 
-%description cfenvd
+%description monitord
 This package contain the cfengine anomaly detection daemon.
 
 %package -n	%{libname}
@@ -121,11 +121,11 @@ install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/bin
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/lastseen
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/modules
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/outputs
-install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/ppkeys
+install -d -m 700 %{buildroot}%{_localstatedir}/lib/%{up_name}/ppkeys
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/randseed
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/reports
-install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_in
-install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_out
+install -d -m 700 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_in
+install -d -m 700 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_out
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_state
 
 mv %{buildroot}%{_localstatedir}/lib/%{up_name}/inputs \
@@ -139,9 +139,9 @@ ln -sf ../../../../%{_sbindir}/cf-promises .
 popd
 
 install -d -m 755 %{buildroot}%{_initrddir}
-install -m 755 %{SOURCE4} %{buildroot}%{_initrddir}/cfservd
-install -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/cfexecd
-install -m 755 %{SOURCE6} %{buildroot}%{_initrddir}/cfenvd
+install -m 755 %{SOURCE4} %{buildroot}%{_initrddir}/cfengine-serverd
+install -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/cfengine-execd
+install -m 755 %{SOURCE6} %{buildroot}%{_initrddir}/cfengine-monitord
 
 mv %{buildroot}%{_docdir}/%{up_name} %{buildroot}%{_docdir}/%{name}
 
@@ -150,23 +150,23 @@ if [ $1 = 1 ]; then
     [ -f "%{_localstatedir}/lib/%{up_name}/ppkeys/localhost.priv" ] || cf-key >/dev/null 2>&1
 fi
 
-%post cfexecd
-%_post_service cfexecd
+%post execd
+%_post_service cfengine-execd
 
-%preun cfexecd
-%_preun_service cfexecd
+%preun execd
+%_preun_service cfengine-execd
 
-%post cfenvd
-%_post_service cfenvd
+%post monitord
+%_post_service cfengine-monitord
 
-%preun cfenvd
-%_preun_service cfenvd
+%preun monitord
+%_preun_service cfengine-monitord
 
-%post cfservd
-%_post_service cfservd
+%post serverd
+%_post_service cfengine-serverd
 
-%preun cfservd
-%_preun_service cfservd
+%preun serverd
+%_preun_service cfengine-serverd
 
 %clean
 rm -rf %{buildroot}
@@ -181,7 +181,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/cf-key.8*
 %{_mandir}/man8/cf-promises.8*
 
-%files cfagent
+%files agent
 %defattr(-,root,root)
 %{_sbindir}/cf-agent
 %{_sbindir}/cf-know
@@ -192,21 +192,21 @@ rm -rf %{buildroot}
 %{_mandir}/man8/cf-report.8*
 %{_mandir}/man8/cf-runagent.8*
 
-%files cfservd
+%files serverd
 %defattr(-,root,root)
-%{_initrddir}/cfservd
+%{_initrddir}/cfengine-serverd
 %{_sbindir}/cf-serverd
 %{_mandir}/man8/cf-serverd.8*
 
-%files cfenvd
+%files monitord
 %defattr(-,root,root)
-%{_initrddir}/cfenvd
+%{_initrddir}/cfengine-monitord
 %{_sbindir}/cf-monitord
 %{_mandir}/man8/cf-monitord.8*
 
-%files cfexecd
+%files execd
 %defattr(-,root,root)
-%{_initrddir}/cfexecd
+%{_initrddir}/cfengine-execd
 %{_sbindir}/cf-execd
 %{_mandir}/man8/cf-execd.8*
 
