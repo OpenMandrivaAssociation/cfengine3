@@ -5,7 +5,7 @@
 %define release %mkrel 0.%{beta}.3
 %define _fortify_cflags %nil
 
-%define major 1
+%define major 2
 %define libname %mklibname %{name}_ %{major}
 %define develname %mklibname -d %{name}
 
@@ -25,6 +25,9 @@ BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
 BuildRequires:	db4-devel
+BuildRequires:	graphviz-devel
+BuildRequires:	mysql-devel
+BuildRequires:	postgresql-devel
 Requires(pre):	rpm-helper
 Requires(preun):rpm-helper
 Conflicts:      cfengine
