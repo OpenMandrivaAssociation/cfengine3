@@ -1,8 +1,7 @@
 %define	up_name	cfengine
 %define	name	cfengine3
 %define version 3.0.2
-%define beta b5
-%define release %mkrel 0.%{beta}.4
+%define release %mkrel 1
 %define _fortify_cflags %nil
 
 %define major 2
@@ -16,8 +15,7 @@ Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
 URL:		http://www.cfengine.org
-Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}%{beta}.tar.gz
-Patch0:     cfengine-3.0.2b5-fix-default-configuration-installation.patch
+Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}.tar.gz
 Source4:	cfengine-serverd.init
 Source5:	cfengine-execd.init
 Source6:	cfengine-monitord.init
@@ -104,9 +102,7 @@ This package contains the header files and libraries needed for
 developing programs using the %{name} library.
 
 %prep
-%setup -q -n %{up_name}-%{version}%{beta}
-%patch0 -p 1
-autoreconf
+%setup -q -n %{up_name}-%{version}
 
 %build
 %serverbuild
@@ -131,7 +127,7 @@ install -d -m 700 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_in
 install -d -m 700 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_out
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/%{up_name}/rpc_state
 
-mv %{buildroot}%{_localstatedir}/lib/%{up_name}/inputs \
+mv %{buildroot}%{_docdir}/%{up_name}/inputs \
     %{buildroot}%{_sysconfdir}/%{up_name}
 
 pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
