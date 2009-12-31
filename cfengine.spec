@@ -19,6 +19,7 @@ Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}.tar.gz
 Source4:	cfengine-serverd.init
 Source5:	cfengine-execd.init
 Source6:	cfengine-monitord.init
+Patch0:		cfengine-3.0.3-fix-str-fmt.patch
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
@@ -103,6 +104,7 @@ developing programs using the %{name} library.
 
 %prep
 %setup -q -n %{up_name}-%{version}
+%patch0 -p0
 
 %build
 %serverbuild
