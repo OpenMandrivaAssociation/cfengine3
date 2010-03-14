@@ -1,6 +1,6 @@
 %define	up_name	cfengine
 %define	name	cfengine3
-%define version 3.0.3
+%define version 3.0.4
 %define release %mkrel 1
 %define _fortify_cflags %nil
 
@@ -15,7 +15,7 @@ Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
 URL:		http://www.cfengine.org
-Source0:	http://www.cfengine.org/downloads/%{up_name}-%{version}.tar.gz
+Source0:	http://www.cfengine.org/tarballs/%{up_name}-%{version}.tar.gz
 Source4:	cfengine-serverd.init
 Source5:	cfengine-execd.init
 Source6:	cfengine-monitord.init
