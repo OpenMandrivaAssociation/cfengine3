@@ -27,6 +27,7 @@ BuildRequires:	db4-devel
 BuildRequires:	graphviz-devel
 BuildRequires:	mysql-devel
 BuildRequires:	postgresql-devel
+BuildRequires:	pcre-devel
 Requires(pre):	rpm-helper
 Requires(preun):rpm-helper
 Conflicts:      cfengine
