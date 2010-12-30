@@ -1,16 +1,13 @@
 %define	up_name	cfengine
-%define	name	cfengine3
-%define version 3.0.5
-%define release %mkrel 3
 %define _fortify_cflags %nil
 
-%define major 2
+%define major 1
 %define libname %mklibname %{name}_ %{major}
 %define develname %mklibname -d %{name}
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		cfengine3
+Version:	3.1.2
+Release:	%mkrel 0.0
 Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
@@ -43,6 +40,7 @@ systems in the most economical way possible.
 %package base
 Summary:	Cfengine base files
 Group:		Monitoring
+Requires:	lsb-release
 
 %description base
 This package contain the cfengine base files needed by all subpackages.
@@ -105,7 +103,7 @@ developing programs using the %{name} library.
 
 %prep
 %setup -q -n %{up_name}-%{version}
-%patch0 -p0
+%patch0 -p1
 
 %build
 %serverbuild
@@ -137,7 +135,11 @@ pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
 ln -sf ../../..%{_sysconfdir}/%{up_name} inputs
 popd
 pushd %{buildroot}%{_localstatedir}/lib/%{up_name}/bin
-ln -sf ../../../../%{_sbindir}/cf-promises .
+#ln -sf ../../../../%{_sbindir}/cf-promises .
+for i in ../../../../%{_sbindir}/cf-*
+do
+ln -sf ../../../../%{_sbindir}/$i .
+done
 popd
 
 install -d -m 755 %{buildroot}%{_initrddir}
@@ -146,6 +148,11 @@ install -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/cfengine-execd
 install -m 755 %{SOURCE6} %{buildroot}%{_initrddir}/cfengine-monitord
 
 mv %{buildroot}%{_docdir}/%{up_name} %{buildroot}%{_docdir}/%{name}
+
+# compatibility purpose
+pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
+ln -sf %{_localstatedir}/lib/%{up_name} ../../%{up_name}
+popd
 
 %post base
 if [ $1 = 1 ]; then
@@ -179,6 +186,7 @@ rm -rf %{buildroot}
 %{_sbindir}/cf-key
 %{_sbindir}/cf-promises
 %{_localstatedir}/lib/%{up_name}
+%{_localstatedir}/%{up_name}
 %config(noreplace) %{_sysconfdir}/%{up_name}
 %{_mandir}/man8/cf-key.8*
 %{_mandir}/man8/cf-promises.8*
@@ -189,10 +197,12 @@ rm -rf %{buildroot}
 %{_sbindir}/cf-know
 %{_sbindir}/cf-report
 %{_sbindir}/cf-runagent
+%{_sbindir}/cf-hub
 %{_mandir}/man8/cf-agent.8*
 %{_mandir}/man8/cf-know.8*
 %{_mandir}/man8/cf-report.8*
 %{_mandir}/man8/cf-runagent.8*
+%{_mandir}/man8/cf-hub.8*
 
 %files serverd
 %defattr(-,root,root)
@@ -214,10 +224,9 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{major}*
 
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/*.so
-%{_libdir}/*.a
 %{_libdir}/*.la
