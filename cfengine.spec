@@ -7,7 +7,7 @@
 
 Name:		cfengine3
 Version:	3.1.2
-Release:	%mkrel 0.1
+Release:	%mkrel 0.2
 Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
@@ -17,6 +17,7 @@ Source4:	cfengine-serverd.init
 Source5:	cfengine-execd.init
 Source6:	cfengine-monitord.init
 Patch0:		cfengine-3.0.3-fix-str-fmt.patch
+Patch1:		cfengine-3.1.2-fix-crypt-transf.patch
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	openssl-devel
@@ -104,6 +105,7 @@ developing programs using the %{name} library.
 %prep
 %setup -q -n %{up_name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %serverbuild
