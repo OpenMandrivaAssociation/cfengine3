@@ -6,7 +6,7 @@
 %define develname %mklibname -d %{name}
 
 Name:		cfengine3
-Version:	3.1.4
+Version:	3.1.5
 Release:	%mkrel 1
 Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
@@ -196,12 +196,10 @@ rm -rf %{buildroot}
 %{_sbindir}/cf-know
 %{_sbindir}/cf-report
 %{_sbindir}/cf-runagent
-%{_sbindir}/cf-hub
 %{_mandir}/man8/cf-agent.8*
 %{_mandir}/man8/cf-know.8*
 %{_mandir}/man8/cf-report.8*
 %{_mandir}/man8/cf-runagent.8*
-%{_mandir}/man8/cf-hub.8*
 
 %files serverd
 %defattr(-,root,root)
