@@ -7,7 +7,7 @@
 
 Name:		cfengine3
 Version:	3.1.5
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
