@@ -153,6 +153,9 @@ pushd %{buildroot}%{_localstatedir}/lib/%{up_name}
 ln -sf %{_localstatedir}/lib/%{up_name} ../../%{up_name}
 popd
 
+# cleanup
+rm -f %{buildroot}%{_libdir}/*.la
+
 %post base
 if [ $1 = 1 ]; then
     [ -f "%{_localstatedir}/lib/%{up_name}/ppkeys/localhost.priv" ] || cf-key >/dev/null 2>&1
@@ -226,4 +229,3 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/*.so
-%{_libdir}/*.la
