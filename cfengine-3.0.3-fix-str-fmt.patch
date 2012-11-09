@@ -1,0 +1,42 @@
+diff -Naurp cfengine-3.1.2/src/communication.c cfengine-3.1.2.oden/src/communication.c
+--- cfengine-3.1.2/src/communication.c	2010-11-29 08:55:52.000000000 +0100
++++ cfengine-3.1.2.oden/src/communication.c	2010-12-30 15:33:49.958940126 +0100
+@@ -310,7 +310,7 @@ memset(hostbuffer,0,MAXHOSTNAMELEN);
+ if ((err = getaddrinfo(ipaddress,NULL,&query,&response)) != 0)
+    {
+    CfOut(cf_inform,"","Unable to lookup IP address (%s): %s",ipaddress,gai_strerror(err));
+-   snprintf(hostbuffer,MAXHOSTNAMELEN,ipaddress); 
++   snprintf(hostbuffer,MAXHOSTNAMELEN, "%s",ipaddress); 
+    return hostbuffer;
+    }
+ 
+@@ -318,7 +318,7 @@ for (ap = response; ap != NULL; ap = ap-
+    {   
+    if ((err = getnameinfo(ap->ai_addr,ap->ai_addrlen,hostbuffer,MAXHOSTNAMELEN,0,0,0)) != 0)
+       {
+-      snprintf(hostbuffer,MAXHOSTNAMELEN,ipaddress);
++      snprintf(hostbuffer,MAXHOSTNAMELEN, "%s",ipaddress);
+       freeaddrinfo(response);
+       return hostbuffer;
+       }
+@@ -328,7 +328,7 @@ for (ap = response; ap != NULL; ap = ap-
+    return hostbuffer;
+    }
+ 
+- snprintf(hostbuffer,MAXHOSTNAMELEN-1,ipaddress);
++ snprintf(hostbuffer,MAXHOSTNAMELEN-1,"%s",ipaddress);
+  
+ #else
+ 
+diff -Naurp cfengine-3.1.2/src/files_operators.c cfengine-3.1.2.oden/src/files_operators.c
+--- cfengine-3.1.2/src/files_operators.c	2010-12-07 09:04:11.000000000 +0100
++++ cfengine-3.1.2.oden/src/files_operators.c	2010-12-30 15:33:49.957940244 +0100
+@@ -1481,7 +1481,7 @@ void LogHashChange(char *file)
+     return;
+     }
+   
+-  snprintf(prevFile,sizeof(prevFile),file);
++  snprintf(prevFile,sizeof(prevFile), "%s",file);
+ 
+ 
+ /* This is inefficient but we don't want to lose any data */

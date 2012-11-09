@@ -1,0 +1,4 @@
+cfengine-3.1.5.tar.gz
+cfengine-execd.init
+cfengine-monitord.init
+cfengine-serverd.init
