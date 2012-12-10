@@ -1,5 +1,2 @@
 sources:
-  "cfengine-3.1.5.tar.gz:"	e362742ed3d1d605be222cc901820ac0811ff177
-  "cfengine-execd.init:"	806064d4acaddba17ab26a603e8a0ffa7215040a
-  "cfengine-monitord.init:"	79239facd349936f3467bbb132b22ca85c4d78bf
-  "cfengine-serverd.init:"	d63b7847b9ae90e16eedec36b3fe9d91c8a07055
+  "cfengine-3.1.5.tar.gz": e362742ed3d1d605be222cc901820ac0811ff177

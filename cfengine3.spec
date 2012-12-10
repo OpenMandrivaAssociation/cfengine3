@@ -229,3 +229,90 @@ rm -rf %{buildroot}
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/*.so
+
+
+%changelog
+* Mon May 14 2012 Crispin Boylan <crisb@mandriva.org> 3.1.5-3
++ Revision: 798889
+- Rebuild
+
+* Sat Feb 11 2012 Oden Eriksson <oeriksson@mandriva.com> 3.1.5-2
++ Revision: 773193
+- fix build
+- relink against libpcre.so.1
+
+* Wed May 04 2011 Guillaume Rousse <guillomovitch@mandriva.org> 3.1.5-1
++ Revision: 666502
+- new version
+
+  + Bogdano Arendartchuk <bogdano@mandriva.com>
+    - new version 3.1.4 (from fwang | 2011-04-12 11:19:02 +0200)
+    - rename spec file (from fwang | 2011-04-12 11:20:14 +0200)
+
+* Wed Jan 05 2011 Leonardo Coelho <leonardoc@mandriva.org> 3.1.2-0.2mdv2011.0
++ Revision: 628808
+- Bug fix #17269 (File Tranfer Encrypted)
+- Bug Fix #17269 (File Transfer with encryption)
+
+* Sat Jan 01 2011 Oden Eriksson <oeriksson@mandriva.com> 3.1.2-0.1mdv2011.0
++ Revision: 627215
+- rebuilt against mysql-5.5.8 libs, again
+- 3.1.2
+- rediffed the string format patch
+- sync changes with mes5
+
+* Thu Dec 30 2010 Oden Eriksson <oeriksson@mandriva.com> 3.0.5-3mdv2011.0
++ Revision: 626509
+- rebuilt against mysql-5.5.8 libs
+
+* Sun Sep 05 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.5-1mdv2011.0
++ Revision: 576168
+- update to new version 3.0.5
+
+* Wed Apr 21 2010 Funda Wang <fwang@mandriva.org> 3.0.4-2mdv2010.1
++ Revision: 537319
+- rebuild
+
+* Sun Mar 14 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.4-1mdv2010.1
++ Revision: 519107
+- fix build dependencies
+- new version
+
+* Thu Dec 31 2009 Funda Wang <fwang@mandriva.org> 3.0.3-1mdv2010.1
++ Revision: 484346
+- fix str fmt
+- new version 3.0.3
+
+* Sun Aug 23 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-1mdv2010.0
++ Revision: 420111
+- 3.0.2 final
+
+* Sun Jul 26 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-0.b5.4mdv2010.0
++ Revision: 400435
+- build with graphviz, mysql and postgresql support
+
+* Sun Jul 26 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-0.b5.3mdv2010.0
++ Revision: 400430
+- new version
+- rename subpackages according to the component the are shipping
+- rename initscripts to match subpackages names
+- fix initscripts
+- restrict some perms on workdir, otherwise cf-serverd doesn't start
+- fix cf-promises visibility from cf-agent
+
+* Sat Jul 18 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-0.b4.2mdv2010.0
++ Revision: 397172
+- fix default configuration installation
+
+* Sat Jul 18 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-0.b4.1mdv2010.0
++ Revision: 397094
+- new version
+
+* Tue Jun 23 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-0.b3.1mdv2010.0
++ Revision: 388685
+- new version
+
+* Thu May 21 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.1-1mdv2010.0
++ Revision: 378323
+- import cfengine3
+
