@@ -11,7 +11,7 @@ Release:	3
 Summary:	Cfengine helps administer remote BSD and System-5-like systems
 License:	GPL
 Group:		Monitoring
-URL:		http://www.cfengine.org
+URL:		https://www.cfengine.org
 Source0:	http://www.cfengine.org/tarballs/%{up_name}-%{version}.tar.gz
 Source4:	cfengine-serverd.init
 Source5:	cfengine-execd.init
